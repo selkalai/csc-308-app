@@ -54,10 +54,33 @@ const findUserByNameAndJob = (name, job) => {
   );
 }
 
+//generate a random id string. form is 3 lowercase letters + 3 nums
+//math random returns rand float from 0 to 1
+const generateId = () => {
+  let new_id = "";
+  const letters = [
+    "a","b","c", "d", "e", "f", "g", "h", "i", "j",
+    "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+    "u", "v", "w", "x", "y", "z"
+  ];
+
+  for (let i = 0; i < 3; i++) {
+    new_id += letters[Math.floor(Math.random() * 26)];
+  }
+
+  for (let i = 0; i < 3; i++) {
+    new_id += Math.floor(Math.random() * 10);
+  }
+
+  return new_id;
+}
+
 const addUser = (user) => {
+  user.id = generateId();
   users["users_list"].push(user);
   return user;
 };
+
 
 const deleteUserById = (id) => {
   const index = users["users_list"].findIndex((user) => user["id"] === id);
@@ -68,8 +91,6 @@ const deleteUserById = (id) => {
   users["users_list"] = users["users_list"].filter((user) => user["id"] !== id);
   return deletedUser;
 };
-
-
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
