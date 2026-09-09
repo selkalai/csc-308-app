@@ -38,11 +38,16 @@ function MyApp() {
 	  .catch((error) => { console.log(error); });
 }, [] );
 
-  function updateList(person) {
+function updateList(person) {
   postUser(person)
     .then((res) => {
       if (res.status === 201) {
-        setCharacters([...characters, person]);
+        return res.json();
+      }
+    })
+    .then((newUser) => {
+      if (newUser) {
+        setCharacters([...characters, newUser]);
       }
     })
     .catch((error) => {
