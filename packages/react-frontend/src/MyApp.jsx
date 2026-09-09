@@ -7,12 +7,20 @@ import Form from "./Form";
 function MyApp() {
   const [characters, setCharacters] = useState([]);
 
-  function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
+  function removeOneCharacter(id) {
+  deleteUser(id)
+    .then((res) => {
+      if (res.status === 204) {
+        const updated = characters.filter((character) => {
+          return character.id !== id;
+        });
+        setCharacters(updated);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
     });
-    setCharacters(updated);
-  }
+}
 
   function fetchUsers() {
     const promise = fetch("http://localhost:8000/users");
@@ -20,7 +28,7 @@ function MyApp() {
   }
 
   function postUser(person) {
-    const promise = fetch("Http://localhost:8000/users", {
+    const promise = fetch("http://localhost:8000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -30,6 +38,14 @@ function MyApp() {
 
     return promise;
   }
+
+  function deleteUser(id) {
+  const promise = fetch(`http://localhost:8000/users/${id}`, {
+    method: "DELETE",
+  });
+
+  return promise;
+}
 
   useEffect(() => {
   fetchUsers()
