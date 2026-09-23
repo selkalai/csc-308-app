@@ -7,12 +7,12 @@ import Form from "./Form";
 function MyApp() {
   const [characters, setCharacters] = useState([]);
 
-  function removeOneCharacter(id) {
-  deleteUser(id)
+  function removeOneCharacter(_id) {
+  deleteUser(_id)
     .then((res) => {
       if (res.status === 204) {
         const updated = characters.filter((character) => {
-          return character.id !== id;
+          return character._id !== _id;
         });
         setCharacters(updated);
       }
@@ -39,8 +39,8 @@ function MyApp() {
     return promise;
   }
 
-  function deleteUser(id) {
-  const promise = fetch(`http://localhost:8000/users/${id}`, {
+  function deleteUser(_id) {
+  const promise = fetch(`http://localhost:8000/users/${_id}`, {
     method: "DELETE",
   });
 
